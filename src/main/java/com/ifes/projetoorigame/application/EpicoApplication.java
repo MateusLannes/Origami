@@ -73,9 +73,9 @@ public class EpicoApplication
         else throw new NotFoundException("Épico não encontrado");
     }
 
-    public List<Epico> retrieveAll()
+    public List<Epico> retrieveAll(int idProjeto)
     {
-        return this.repository.findAll();
+        return this.repository.findAllByProjeto(idProjeto);
     }
 
     public Epico update(int id, EpicoDTO epicoDTO)
@@ -112,7 +112,7 @@ public class EpicoApplication
         
         try {
             Epico epico = retrieve(id);
-            List<HistoriaUsuario> hu_list = hu_app.getAll();
+            List<HistoriaUsuario> hu_list = hu_app.getAll(id);
             for(HistoriaUsuario hu: hu_list){
                 if(hu.getEpico()!=null && hu.getEpico().equals(epico)){
                     hu_app.delete(hu.getId());

@@ -12,6 +12,7 @@ import com.ifes.projetoorigame.exception.NotFoundException;
 import com.ifes.projetoorigame.model.Tarefa;
 import com.ifes.projetoorigame.model.TipoHistoriaUsuario;
 import com.ifes.projetoorigame.model.TipoTarefa;
+import com.ifes.projetoorigame.repository.TarefaRepository;
 import com.ifes.projetoorigame.repository.TipoHistoriaUsuarioRepository;
 import com.ifes.projetoorigame.repository.TipoTarefaRepository;
 
@@ -23,7 +24,7 @@ public class TipoTarefaApplication {
     @Autowired
     private TipoHistoriaUsuarioRepository repoTipoH;
     @Autowired
-    private TarefaApplication tarefaApplication;
+    private TarefaRepository repoTarefa;
 
     public TipoTarefa create(TipoTarefaDTO dto){
         
@@ -31,7 +32,7 @@ public class TipoTarefaApplication {
         TipoHistoriaUsuario thu = (repoTipoH.findById(dto.getTipoHistoria())).get();
 
         tipotarefa.setDescricao(dto.getDescricao());
-        tipotarefa.setHistoriaUsuario(thu);
+        tipotarefa.setTipoHistoriaUsuario(thu);
         return this.repository.save(tipotarefa);
         
     
@@ -49,8 +50,8 @@ public class TipoTarefaApplication {
         else throw new NotFoundException("Tipo tarefa não achado");
     }
     
-    public List<TipoTarefa> getAll(){
-        return repository.findAll();
+    public List<TipoTarefa> getAll(int idTipoHU){
+        return repository.findByTipoHistoriaId(idTipoHU);
     }
 
     public void update(int id,TipoTarefaDTO dto){
@@ -60,7 +61,7 @@ public class TipoTarefaApplication {
 
             tipoTarefa = this.getById(id);
             tipoTarefa.setDescricao(dto.getDescricao());
-            tipoTarefa.setHistoriaUsuario(thu);
+            tipoTarefa.setTipoHistoriaUsuario(thu);
             this.repository.save(tipoTarefa);
            
         } catch (NotFoundException e) {
@@ -68,11 +69,9 @@ public class TipoTarefaApplication {
         }
     }
     public void delete(int id){
-        List<Tarefa> tarefas = tarefaApplication.getAll();
+        List<Tarefa> tarefas = repoTarefa.findByTipoHistoriaUsuarioId(id);
         for(Tarefa tarefa: tarefas){
-            if(tarefa.getTipoTarefa().getId()==id){
-                tarefaApplication.delete(tarefa.getId());
-            }
+            repoTarefa.deleteById(tarefa.getId());
         }
         repository.deleteById(id);
     }

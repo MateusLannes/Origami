@@ -38,10 +38,10 @@ public class EpicoController {
         return null;
     }
 
-    @GetMapping()
-    public List<Epico> retrieveAll()
+    @GetMapping("/all/{idProjeto}")
+    public List<Epico> retrieveAll(@PathVariable int idProjeto)
     {
-        return epicoApplication.retrieveAll();
+        return epicoApplication.retrieveAll(idProjeto);
     }
 
     @PutMapping("/{id}")

@@ -29,7 +29,7 @@ public class Epico
    @Enumerated(EnumType.STRING)
    private Relevancia relevancia;
 
-    @Column
+   @Column
    @Enumerated(EnumType.STRING)
    private Categoria categoria;
 

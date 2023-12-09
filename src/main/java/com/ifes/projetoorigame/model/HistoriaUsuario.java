@@ -39,9 +39,9 @@ public class HistoriaUsuario {
     @Enumerated(EnumType.STRING)
     private Relevancia relevancia;
 
-    /*@ManyToOne
-    @JoinColumn*/
-    private String categoria;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
    
     @ManyToOne
     @JoinColumn

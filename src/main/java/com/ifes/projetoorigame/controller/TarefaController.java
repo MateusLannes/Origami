@@ -31,9 +31,9 @@ public class TarefaController {
        return application.getById(id);
     }
 
-    @GetMapping()
-    public List<Tarefa> getAll(){
-        return application.getAll();
+    @GetMapping("/all/{idHistoria}")
+    public List<Tarefa> getAll(@PathVariable int idHistoria){
+        return application.getAll(idHistoria);
     }
 
     @PutMapping("/{id}")

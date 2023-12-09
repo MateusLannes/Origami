@@ -39,9 +39,9 @@ public class HistoriaUsuarioController {
 
     }
 
-    @GetMapping()
-    public List<HistoriaUsuario> getAll(){
-        return application.getAll();
+    @GetMapping("/all/{idEpico}")
+    public List<HistoriaUsuario> getAll(@PathVariable int idEpico){
+        return application.getAll(idEpico);
     }
 
     @PutMapping("/{id}")

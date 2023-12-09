@@ -33,9 +33,9 @@ public class TipoTarefaController {
         return application.getById(id);
     }
 
-    @GetMapping()
-    public List<TipoTarefa> listar(){
-        return application.getAll();
+    @GetMapping("/all/{idTipoHU}")
+    public List<TipoTarefa> listar(@PathVariable int idTipoHU){
+        return application.getAll(idTipoHU);
     }
 
     @PutMapping("/{id}")

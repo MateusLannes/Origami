@@ -33,7 +33,7 @@ public class Grafo <T>{
 
     public Vertice<T> obterVertice (T valor){
         for(Vertice<T> vertice: vertices){
-            if(vertice.getValor().equals(valor)){ return vertice;}
+            if(vertice.getValor()!= null && vertice.getValor().equals(valor)){ return vertice;}
         }
         return null;
     }
@@ -71,7 +71,7 @@ public class Grafo <T>{
 
         for( Aresta<T> aresta: this.arestas){
             
-            if( aresta.getOrigem().equals(vertice)){ destinos.add(aresta);}
+            if(aresta.getOrigem()!=null && aresta.getOrigem().equals(vertice)){ destinos.add(aresta);}
 
         }
         return destinos;

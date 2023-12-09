@@ -78,8 +78,12 @@ public class HistoriaUsuarioApplication {
         throw new NotFoundException("Historia não encontrada.");
     }
 
-    public List<HistoriaUsuario> getAll(){
-        return repository.findAll();
+    public List<HistoriaUsuario> getAll(int idEpico){
+        return repository.findByEpicoId(idEpico);
+    }
+
+    public List<HistoriaUsuario> getAllTipo(int idTipoHU){
+        return repository.findByTipoHistoriaUserId(idTipoHU);
     }
 
     public void update(HistoriaUsuarioDTO dto,int id) {
@@ -108,18 +112,11 @@ public class HistoriaUsuarioApplication {
 
     }
     public void delete(int id){
-        try {
-            HistoriaUsuario hu = getById(id);
-            List<Tarefa> tarefas = tarefaApp.getAll();
-            for(Tarefa tarefa: tarefas){
-                if(tarefa.getHistoria_usuario()!= null && tarefa.getHistoria_usuario().equals(hu)){
-                    tarefaApp.delete(tarefa.getId());
-                }
-            }
-            repository.deleteById(id);
-        } catch (NotFoundException e) {
-            e.getMessage();
+        List<Tarefa> tarefas = tarefaApp.getAll(id);
+        for(Tarefa tarefa: tarefas){
+            tarefaApp.delete(tarefa.getId());
         }
+        repository.deleteById(id);
     }
     
 }

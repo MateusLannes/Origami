@@ -60,7 +60,7 @@ public class TarefaApplication {
             e.getMessage();
         }*/
         for(TipoTarefa tipoTarefa: tipoTarefas){
-            if(tipoTarefa.getHistoriaUsuario().equals(hu.getTipoHistoria())){
+            if(tipoTarefa.getTipoHistoriaUsuario()!= null && tipoTarefa.getTipoHistoriaUsuario().equals(hu.getTipoHistoria())){
                 Tarefa tarefa = new Tarefa();
                 tarefa.setHistoria_usuario(hu);
                 tarefa.setTipoTarefa(tipoTarefa);
@@ -93,13 +93,8 @@ public class TarefaApplication {
         throw new NotFoundException("Tarefa não Encontrada");
     }
     
-    public List<Tarefa> getAll(){
-        arvore.reiniciarNavegacao();
-        List<Tarefa> lista = new ArrayList<>();
-        for(int i =0; i<arvore.quantidadeNos();i++){
-            lista.add(arvore.obterProximo());
-        }
-        return lista;
+    public List<Tarefa> getAll(int idHistoria){
+        return this.repository.findByHistoriaUsuarioId(idHistoria);
     }
 
     public Tarefa update(int id, TarefaDTO dto)

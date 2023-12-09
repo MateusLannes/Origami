@@ -27,6 +27,6 @@ public class TipoTarefa {
 
     @ManyToOne
     @JoinColumn
-    private TipoHistoriaUsuario historiaUsuario;
+    private TipoHistoriaUsuario tipoHistoriaUsuario;
     
 }

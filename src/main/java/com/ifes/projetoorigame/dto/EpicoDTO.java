@@ -3,6 +3,7 @@ package com.ifes.projetoorigame.dto;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ifes.projetoorigame.model.Categoria;
 import com.ifes.projetoorigame.model.Relevancia;
 
 import lombok.Data;
@@ -17,7 +18,8 @@ public class EpicoDTO
    @JsonFormat(shape = JsonFormat.Shape.STRING)
    private Relevancia relevancia;
 
-   private String categoria;
+   @JsonFormat(shape = JsonFormat.Shape.STRING)
+   private Categoria categoria;
 
    private int projeto_id;
 

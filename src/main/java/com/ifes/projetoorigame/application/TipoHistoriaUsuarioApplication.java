@@ -56,8 +56,8 @@ public class TipoHistoriaUsuarioApplication {
         throw new NotFoundException("Tipo de História de Usuário não encontrado.");
     }
     
-    public List<TipoHistoriaUsuario> getAll(){
-        return tipoHURepository.findAll();
+    public List<TipoHistoriaUsuario> getAll(int idTipoEpico){
+        return tipoHURepository.findByTipoEpicoId(idTipoEpico);
     }
 
     public void update(int id,TipoHistoriaUsuarioDTO dto){
@@ -74,15 +74,15 @@ public class TipoHistoriaUsuarioApplication {
         }
     }
     public void delete(int id){
-        List<HistoriaUsuario> hu_list = hUsuarioApplication.getAll();
-        List<TipoTarefa> tipoTarefas = tipoTarefaApp.getAll();
+        List<HistoriaUsuario> hu_list = hUsuarioApplication.getAllTipo(id);
+        List<TipoTarefa> tipoTarefas = tipoTarefaApp.getAll(id);
         for(HistoriaUsuario hu:hu_list){
             if(hu.getTipoHistoria()!=null && hu.getTipoHistoria().getId()==id){
                 hUsuarioApplication.delete(hu.getId()); 
             }
         }
         for(TipoTarefa tipoT: tipoTarefas){
-            if(tipoT.getHistoriaUsuario().getId() == id){
+            if(tipoT.getTipoHistoriaUsuario().getId() == id){
                 tipoTarefaApp.delete(tipoT.getId());
             }
         }

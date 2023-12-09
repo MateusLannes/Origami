@@ -83,11 +83,9 @@ public class TipoEpicoApplication
         try {
             TipoEpico tipoEpico = retrieve(id);
             List<Epico> epicos = repoEpico.findAll();
-            List<TipoHistoriaUsuario> tiposHU = tipoHUApp.getAll();
+            List<TipoHistoriaUsuario> tiposHU = tipoHUApp.getAll(id);
             for(Epico epico: epicos){
-                if(epico.getTipoEpico()!= null && epico.getTipoEpico().equals(tipoEpico)){
-                    epicoApplication.delete(epico.getId());
-                }
+                epicoApplication.delete(epico.getId());
             }
             for(TipoHistoriaUsuario thu :tiposHU){
                 if(thu.getTipoEpico()!= null && thu.getTipoEpico().equals(tipoEpico)){

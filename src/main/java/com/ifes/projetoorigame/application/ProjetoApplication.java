@@ -66,11 +66,11 @@ public class ProjetoApplication
 
     public void delete(int id){
        
-        List<Epico> epicos = epicoApp.retrieveAll();
+        List<Epico> epicos = epicoApp.retrieveAll(id);
         for(Epico epico: epicos){
-            if((epico.getProjeto().getId())==(id)) epicoApp.delete(epico.getId());
+            epicoApp.delete(epico.getId());
             
         }
-         projetoRepository.deleteById(id);
+        projetoRepository.deleteById(id);
     }
 }
