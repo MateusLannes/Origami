@@ -18,7 +18,7 @@ import com.ifes.projetoorigame.model.TipoHistoriaUsuario;
 
 
 @RestController
-@RequestMapping("Tipo_Historia_Usuario")
+@RequestMapping("/api/tipoHistoriaUsuario")
 public class TipoHistoriaUsuarioController{
     
     @Autowired
@@ -28,13 +28,13 @@ public class TipoHistoriaUsuarioController{
     @Autowired
     private TipoHistoriaUsuarioApplication tipoHUApplication;
     
-   @PostMapping("Criar/")
+   @PostMapping("/")
     public TipoHistoriaUsuario create(@RequestBody TipoHistoriaUsuarioDTO tipoHUdto)
     {
         return tipoHUApplication.create(tipoHUdto);
     }
 
-    @GetMapping("Buscar/{id}")
+    @GetMapping("/{id}")
     public TipoHistoriaUsuario get(@PathVariable int id)
     {
        
@@ -48,17 +48,17 @@ public class TipoHistoriaUsuarioController{
         return null;
     }
 
-    @GetMapping("Listar/")
+    @GetMapping("/")
     public List<TipoHistoriaUsuario> getAll(){
         return tipoHUApplication.getAll();
     }
 
-    @PutMapping("Atualizar/{id}")
+    @PutMapping("/{id}")
     public void update (@PathVariable int id, @RequestBody TipoHistoriaUsuarioDTO tipoHUdto){
         tipoHUApplication.update(id, tipoHUdto);
     }
 
-    @DeleteMapping("Deletar/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable int id)
     {
         tipoHUApplication.delete(id);

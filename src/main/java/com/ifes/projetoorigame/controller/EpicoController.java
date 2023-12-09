@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("Epico")
+@RequestMapping("/api/epico")
 public class EpicoController {
 
 
@@ -19,7 +19,7 @@ public class EpicoController {
     private EpicoApplication epicoApplication;
     
 
-    @PostMapping("criar")
+    @PostMapping("/")
     public Epico create(@RequestBody EpicoDTO dto) {
         
         Epico epico = epicoApplication.create(dto);
@@ -27,7 +27,7 @@ public class EpicoController {
 
     }
 
-    @GetMapping("Buscar/{id}")
+    @GetMapping("/{id}")
     public Epico retrieve(@PathVariable int id) {
         try
         {
@@ -38,19 +38,19 @@ public class EpicoController {
         return null;
     }
 
-    @GetMapping("Listar/")
+    @GetMapping()
     public List<Epico> retrieveAll()
     {
         return epicoApplication.retrieveAll();
     }
 
-    @PutMapping("atualizar/{id}")
+    @PutMapping("/{id}")
     public Epico update(@PathVariable int id, @RequestBody EpicoDTO epicoDTO)
     {
         return epicoApplication.update(id, epicoDTO);
     }
 
-    @DeleteMapping("deletar/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable int id)
     {
         epicoApplication.delete(id);

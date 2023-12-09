@@ -21,18 +21,18 @@ import com.ifes.projetoorigame.model.Projeto;
 
 
 @RestController
-@RequestMapping("projeto")
+@RequestMapping("/api/projeto")
 public class ProjetoController{
     @Autowired
     private ProjetoApplication projetoApplication;
 
-   @PostMapping("criar")
+   @PostMapping("/")
     public Projeto create(@RequestBody ProjetoDTO projetoDto)
     {
         return projetoApplication.create(projetoDto);
     }
 
-    @GetMapping("Buscar/{id}")
+    @GetMapping("/{id}")
     public Projeto getById(@PathVariable int id)
     {
        
@@ -46,17 +46,17 @@ public class ProjetoController{
         return null;
     }
 
-    @GetMapping("Listar/")
+    @GetMapping()
     public List<Projeto> getAll(){
         return projetoApplication.getAll();
     }
 
-    @PutMapping("Atualizar/{id}")
+    @PutMapping("/{id}")
     public void update (@PathVariable int id, @RequestBody ProjetoDTO projetoCTO){
         projetoApplication.update(id, projetoCTO);
     }
 
-    @DeleteMapping("Deletar/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable int id)
     {
         projetoApplication.delete(id);

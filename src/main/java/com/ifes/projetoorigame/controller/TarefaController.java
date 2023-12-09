@@ -19,30 +19,30 @@ import com.ifes.projetoorigame.exception.NotFoundException;
 import com.ifes.projetoorigame.model.Tarefa;
 
 @RestController
-@RequestMapping("tarefa")
+@RequestMapping("/api/tarefa")
 
 public class TarefaController {
 
     @Autowired
     private TarefaApplication application;
     
-    @GetMapping("Buscar/{id}")
+    @GetMapping("/{id}")
     public Tarefa getById(@PathVariable int id) throws NotFoundException{
        return application.getById(id);
     }
 
-    @GetMapping("Listar/")
+    @GetMapping()
     public List<Tarefa> getAll(){
         return application.getAll();
     }
 
-    @PutMapping("Atualizar/{id}")
+    @PutMapping("/{id}")
     public Tarefa update(@PathVariable int id, @RequestBody TarefaDTO dto){
         return application.update(id, dto);
 
     }
 
-    @DeleteMapping("deletar/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
         application.delete(id);
     }

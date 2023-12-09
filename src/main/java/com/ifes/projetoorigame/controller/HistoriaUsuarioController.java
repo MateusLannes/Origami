@@ -19,7 +19,7 @@ import com.ifes.projetoorigame.exception.NotFoundException;
 import com.ifes.projetoorigame.model.HistoriaUsuario;
 
 @RestController
-@RequestMapping("Historia de Usuario")
+@RequestMapping("/api/historiaUsuario")
 
 public class HistoriaUsuarioController {
 
@@ -27,7 +27,7 @@ public class HistoriaUsuarioController {
     private HistoriaUsuarioApplication application;
 
     
-    @GetMapping("Buscar/{id}")
+    @GetMapping("/{id}")
     public HistoriaUsuario getById(@PathVariable int id){
         try {
             return application.getById(id);
@@ -39,18 +39,18 @@ public class HistoriaUsuarioController {
 
     }
 
-    @GetMapping("Listar/")
+    @GetMapping()
     public List<HistoriaUsuario> getAll(){
         return application.getAll();
     }
 
-    @PutMapping("Atualizar/{id}")
+    @PutMapping("/{id}")
     public void update(@PathVariable int id, @RequestBody HistoriaUsuarioDTO dto){
         application.update(dto, id);
 
     }
 
-    @DeleteMapping("deletar/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
         application.delete(id);
     }

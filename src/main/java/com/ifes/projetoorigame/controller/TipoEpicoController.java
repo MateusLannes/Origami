@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("tipo_Epico")
+@RequestMapping("/api/tipoEpico")
 public class TipoEpicoController
 {
     @Autowired
     private TipoEpicoApplication tipoEpicoApplication;
 
-    @PostMapping("criar")
+    @PostMapping("/")
     public TipoEpico create(@RequestBody TipoEpicoDTO tipoEpicoDTO)
     {
         return tipoEpicoApplication.create(tipoEpicoDTO);
     }
 
-    @GetMapping("Buscar/{id}")
+    @GetMapping("/{id}")
     public TipoEpico get(@PathVariable int id)
     {
         TipoEpico tipoEpico;
@@ -39,19 +39,19 @@ public class TipoEpicoController
         return null;
     }
 
-    @GetMapping("listar")
+    @GetMapping()
     public List<TipoEpico> getAll()
     {
         return tipoEpicoApplication.retrieveAll();
     }
 
-    @PutMapping("atualizar/{id}")
+    @PutMapping("/{id}")
     public void update (@PathVariable int id, @RequestBody TipoEpicoDTO tipoEpicoDTO)
     {
         tipoEpicoApplication.update(id, tipoEpicoDTO);
     }
 
-    @DeleteMapping("deletar/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable int id)
     {
         tipoEpicoApplication.delete(id);

@@ -29,9 +29,9 @@ public class Epico
    @Enumerated(EnumType.STRING)
    private Relevancia relevancia;
 
-   /*@OneToOne
-   @JoinColumn(name = "id_categoria" )*/
-   private String categoria;
+    @Column
+   @Enumerated(EnumType.STRING)
+   private Categoria categoria;
 
    @ManyToOne (cascade =  CascadeType.ALL)
    @JoinColumn(name = "id_projeto")

@@ -17,33 +17,33 @@ import com.ifes.projetoorigame.dto.TipoTarefaDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
 import com.ifes.projetoorigame.model.TipoTarefa;
 
-@RequestMapping("tipo_tarefa")
+@RequestMapping("api/tipoTarefa")
 @RestController
 public class TipoTarefaController {
     @Autowired
     private TipoTarefaApplication application;
 
-    @PostMapping("Criar/")
+    @PostMapping("/")
     public TipoTarefa create(@RequestBody TipoTarefaDTO tipoTarefaDTO){
         return application.create(tipoTarefaDTO);
     }
 
-    @GetMapping("Buscar/{id}")
+    @GetMapping("/{id}")
     public TipoTarefa getById(@PathVariable int id) throws NotFoundException {
         return application.getById(id);
     }
 
-    @GetMapping("Listar/")
+    @GetMapping()
     public List<TipoTarefa> listar(){
         return application.getAll();
     }
 
-    @PutMapping("Atualizar/{id}")
+    @PutMapping("/{id}")
     public void update(@PathVariable int id, @RequestBody TipoTarefaDTO tipoTarefaDTO){
         application.update(id, tipoTarefaDTO);
     }
 
-    @DeleteMapping("Deletar/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
         application.delete(id);
     }
