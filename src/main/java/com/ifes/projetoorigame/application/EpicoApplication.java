@@ -124,4 +124,18 @@ public class EpicoApplication
         }
            
     }
+    public Epico gerarDependentes(int idEpico,List<Integer> listIds){
+        List<Epico> listaEpicos = new ArrayList<>();
+        try {
+            Epico epico = retrieve(idEpico);
+            for(Integer id: listIds){
+                listaEpicos.add(retrieve(id));
+            }
+            epico.setListaDependentes(listaEpicos);
+            return repository.save(epico);
+        } catch (NotFoundException e) {
+            e.getMessage();
+        }
+        return null;
+    }
 }

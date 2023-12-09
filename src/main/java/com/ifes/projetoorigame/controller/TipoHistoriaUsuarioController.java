@@ -10,6 +10,7 @@ import com.ifes.projetoorigame.application.TipoHistoriaUsuarioApplication;
 import com.ifes.projetoorigame.application.TipoTarefaApplication;
 import com.ifes.projetoorigame.dto.TipoHistoriaUsuarioDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
+import com.ifes.projetoorigame.model.Epico;
 import com.ifes.projetoorigame.model.TipoEpico;
 import com.ifes.projetoorigame.model.TipoHistoriaUsuario;
 
@@ -62,5 +63,11 @@ public class TipoHistoriaUsuarioController{
     public void delete(@PathVariable int id)
     {
         tipoHUApplication.delete(id);
+    }
+    @PostMapping("/{idTHU}")
+    public TipoHistoriaUsuario getDependentes(
+            @PathVariable int idTHU, 
+            @RequestParam List<Integer> ids) {
+        return tipoHUApplication.gerarDependentes(idTHU, ids);
     }
 }

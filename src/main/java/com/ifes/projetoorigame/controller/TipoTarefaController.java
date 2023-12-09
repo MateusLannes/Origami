@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ifes.projetoorigame.application.TipoTarefaApplication;
@@ -46,6 +47,10 @@ public class TipoTarefaController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
         application.delete(id);
+    }
+    @PostMapping("/{idTipoTarefa}")
+    public TipoTarefa getDependentes(@PathVariable int idTHU, @RequestParam List<Integer> ids){
+        return application.gerarDependentes(idTHU, ids);
     }
 
     

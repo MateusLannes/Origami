@@ -28,5 +28,8 @@ public class TipoTarefa {
     @ManyToOne
     @JoinColumn
     private TipoHistoriaUsuario tipoHistoriaUsuario;
+
+    @ManyToMany
+    List<TipoTarefa> listaDependentes;
     
 }

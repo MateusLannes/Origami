@@ -41,6 +41,9 @@ public class Epico
    @JoinColumn
    private TipoEpico tipoEpico;
 
+   @ManyToMany
+   List<Epico> listaDependentes;
+
    
    
 }

@@ -55,4 +55,8 @@ public class EpicoController {
     {
         epicoApplication.delete(id);
     }
+    @PostMapping("/{idEpico}")
+    public Epico getDependentes(@PathVariable int idEpico,@RequestParam List<Integer> ids){
+        return epicoApplication.gerarDependentes(idEpico, ids);
+    }
 }

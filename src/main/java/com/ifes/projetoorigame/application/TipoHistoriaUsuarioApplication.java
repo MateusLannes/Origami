@@ -1,5 +1,6 @@
 package com.ifes.projetoorigame.application;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ifes.projetoorigame.dto.TipoHistoriaUsuarioDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
+import com.ifes.projetoorigame.model.Epico;
 import com.ifes.projetoorigame.model.HistoriaUsuario;
 import com.ifes.projetoorigame.model.Tarefa;
 import com.ifes.projetoorigame.model.TipoEpico;
@@ -87,6 +89,21 @@ public class TipoHistoriaUsuarioApplication {
             }
         }
         tipoHURepository.deleteById(id);
+    }
+    public TipoHistoriaUsuario gerarDependentes(int idTHU,List<Integer> listIds){
+        List<TipoHistoriaUsuario> listaTH = new ArrayList<>();
+        try {
+            TipoHistoriaUsuario hu = getById(idTHU);
+            for(Integer id: listIds){
+                listaTH.add(getById(id));
+                hu.setListaDependentes(listaTH);
+            }
+            return tipoHURepository.save(hu);
+            
+        } catch (NotFoundException e) {
+            e.getMessage();
+        }
+        return null;
     }
     
 }

@@ -75,4 +75,21 @@ public class TipoTarefaApplication {
         }
         repository.deleteById(id);
     }
+
+    public TipoTarefa gerarDependentes(int idTipoTarefa, List<Integer> listaIds){
+        List<TipoTarefa> listaDependentes = new ArrayList<>();
+        try {
+            TipoTarefa tipoTarefa = getById(idTipoTarefa);
+            for(Integer id: listaIds){
+                listaDependentes.add(getById(id));
+            }
+            tipoTarefa.setListaDependentes(listaDependentes);
+            return repository.save(tipoTarefa);
+        } catch (NotFoundException e) {
+            e.getMessage();
+        }
+        return null;
+
+    }
+
 }

@@ -21,4 +21,6 @@ public class TipoHistoriaUsuario {
     @JoinColumn(name = "tipo_epico_id") // Coluna que faz referência à chave primária de TipoEpico
     private TipoEpico tipoEpico;
 
+    @ManyToMany
+    List<TipoHistoriaUsuario> listaDependentes;
 }

@@ -118,5 +118,13 @@ public class HistoriaUsuarioApplication {
         }
         repository.deleteById(id);
     }
+
+    public void gerarDependentes(HistoriaUsuario hu){
+        TipoHistoriaUsuario thu = hu.getTipoHistoria();
+        List<TipoHistoriaUsuario> lista = thu.getListaDependentes();
+        
+
+
+    }
     
 }
