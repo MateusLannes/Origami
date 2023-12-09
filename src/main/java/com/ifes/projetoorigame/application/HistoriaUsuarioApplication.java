@@ -36,6 +36,7 @@ public class HistoriaUsuarioApplication {
     public void gera(Epico epico) {
 
         List<TipoHistoriaUsuario> listaTHU =repoTHU.findAll();
+        List<HistoriaUsuario> historias = new ArrayList<>();
         
         if(listaTHU!= null){
             for (TipoHistoriaUsuario tipoHU : listaTHU) {
@@ -48,16 +49,18 @@ public class HistoriaUsuarioApplication {
                     histUser.setDescricao(epico.getDescricao());
                     String titulo = this.geraTitulo(epico.getTitulo(), tipoHU.getDescricao());
                     histUser.setTitulo(titulo);
-                    repository.save(histUser);                    
+                    repository.save(histUser); 
+                    historias.add(histUser);                   
                     tarefaApp.gera(histUser);
 
                 }
-            }
-            
+            }       
 
         }
         
-        //return this.repository.saveAll(listaHU);
+        for(HistoriaUsuario hu: historias){
+            gerarDependentes(hu, historias);
+        }
     }
 
     public String geraTitulo(String texto, String tipoHU){
@@ -119,11 +122,17 @@ public class HistoriaUsuarioApplication {
         repository.deleteById(id);
     }
 
-    public void gerarDependentes(HistoriaUsuario hu){
+    public void gerarDependentes(HistoriaUsuario hu, List<HistoriaUsuario> historias){
+        List<HistoriaUsuario> dependentes = new ArrayList<>(); 
         TipoHistoriaUsuario thu = hu.getTipoHistoria();
         List<TipoHistoriaUsuario> lista = thu.getListaDependentes();
-        
-
+        for(HistoriaUsuario histU: historias){
+            if(lista.contains(histU.getTipoHistoria())){
+                dependentes.add(histU);
+            }
+        }
+        hu.setDependentes(dependentes);
+        repository.save(hu);
 
     }
     

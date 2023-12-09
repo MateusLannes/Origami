@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.ifes.projetoorigame.dto.TarefaDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
 import com.ifes.projetoorigame.lib.ArvoreBinaria;
-import com.ifes.projetoorigame.lib.Grafo;
-import com.ifes.projetoorigame.model.Epico;
 import com.ifes.projetoorigame.model.HistoriaUsuario;
 import com.ifes.projetoorigame.model.Tarefa;
 import com.ifes.projetoorigame.model.TipoTarefa;
@@ -39,26 +37,6 @@ public class TarefaApplication {
         List<Tarefa> tarefas = new ArrayList<>();
         List<TipoTarefa> tipoTarefas = repoTipoTarefa.findAll();
 
-
-       /*/ try {
-            HistoriaUsuario hu = hu_application.getById(id);
-            System.out.println(tarefas);
-            for(TipoTarefa tipoTarefa: tipoTarefas){
-                if(tipoTarefa.getHistoriaUsuario().equals(hu.getTipoHistoria())){
-                   Tarefa tarefa = new Tarefa();
-                    tarefa.setHistoria_usuario(hu);
-                    tarefa.setTipoTarefa(tipoTarefa);
-                    tarefa.setDescricao(tipoTarefa.getDescricao());
-                    tarefa.setTitulo(geraTitulo(hu.getTitulo(), tipoTarefa.getDescricao()));
-
-                    tarefas.add(tarefa);
-                
-                }
-            }
-            return this.repository.saveAll(tarefas);
-        } catch (NotFoundException e) {
-            e.getMessage();
-        }*/
         for(TipoTarefa tipoTarefa: tipoTarefas){
             if(tipoTarefa.getTipoHistoriaUsuario()!= null && tipoTarefa.getTipoHistoriaUsuario().equals(hu.getTipoHistoria())){
                 Tarefa tarefa = new Tarefa();
@@ -74,6 +52,9 @@ public class TarefaApplication {
             }
         }
         this.repository.saveAll(tarefas);
+        for(Tarefa tarefa: tarefas){
+            gerarDependentes(tarefa, tarefas);
+        }
     }
 
     private String geraTitulo(String texto, String texto2){
@@ -127,6 +108,20 @@ public class TarefaApplication {
         }
         
        
+    }
+
+    public void gerarDependentes(Tarefa tarefa, List<Tarefa> tarefas){
+        List<Tarefa> dependentes = new ArrayList<>(); 
+        TipoTarefa tipoTarefa = tarefa.getTipoTarefa();
+        List<TipoTarefa> lista = tipoTarefa.getListaDependentes();
+        for(Tarefa taref: tarefas){
+            if(lista.contains(taref.getTipoTarefa())){
+                dependentes.add(taref);
+            }
+        }
+        tarefa.setDependentes(dependentes);
+        repository.save(tarefa);
+
     }
 
         

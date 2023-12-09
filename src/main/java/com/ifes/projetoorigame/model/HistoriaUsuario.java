@@ -51,4 +51,7 @@ public class HistoriaUsuario {
     @JoinColumn
     private Epico epico;
 
+    @ManyToMany
+    private List<HistoriaUsuario> dependentes;
+
     }

@@ -42,7 +42,7 @@ public class Epico
    private TipoEpico tipoEpico;
 
    @ManyToMany
-   List<Epico> listaDependentes;
+   private List<Epico> listaDependentes;
 
    
    

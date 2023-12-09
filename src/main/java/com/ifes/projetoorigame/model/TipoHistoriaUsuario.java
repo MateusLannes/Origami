@@ -22,5 +22,5 @@ public class TipoHistoriaUsuario {
     private TipoEpico tipoEpico;
 
     @ManyToMany
-    List<TipoHistoriaUsuario> listaDependentes;
+    private List<TipoHistoriaUsuario> listaDependentes;
 }

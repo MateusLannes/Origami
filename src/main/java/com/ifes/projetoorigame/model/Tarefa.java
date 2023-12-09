@@ -42,5 +42,7 @@ public class Tarefa {
     @JoinColumn
     private TipoTarefa tipoTarefa;
     
+    @ManyToMany
+    private List<Tarefa> dependentes;
     
 }

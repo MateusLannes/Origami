@@ -30,6 +30,6 @@ public class TipoTarefa {
     private TipoHistoriaUsuario tipoHistoriaUsuario;
 
     @ManyToMany
-    List<TipoTarefa> listaDependentes;
+    private List<TipoTarefa> listaDependentes;
     
 }
