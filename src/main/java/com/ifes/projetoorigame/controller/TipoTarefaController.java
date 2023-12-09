@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ifes.projetoorigame.application.TipoTarefaApplication;
 import com.ifes.projetoorigame.dto.TipoTarefaDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
+import com.ifes.projetoorigame.model.TipoHistoriaUsuario;
 import com.ifes.projetoorigame.model.TipoTarefa;
 
 @RequestMapping("api/tipoTarefa")
@@ -25,7 +26,7 @@ public class TipoTarefaController {
     private TipoTarefaApplication application;
 
     @PostMapping("/")
-    public TipoTarefa create(@RequestBody TipoTarefaDTO tipoTarefaDTO){
+    public TipoTarefa create(@RequestBody TipoTarefaDTO tipoTarefaDTO) {
         return application.create(tipoTarefaDTO);
     }
 
@@ -35,23 +36,25 @@ public class TipoTarefaController {
     }
 
     @GetMapping("/all/{idTipoHU}")
-    public List<TipoTarefa> listar(@PathVariable int idTipoHU){
+    public List<TipoTarefa> listar(@PathVariable int idTipoHU) {
         return application.getAll(idTipoHU);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable int id, @RequestBody TipoTarefaDTO tipoTarefaDTO){
+    public void update(@PathVariable int id, @RequestBody TipoTarefaDTO tipoTarefaDTO) {
         application.update(id, tipoTarefaDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id){
+    public void delete(@PathVariable int id) {
         application.delete(id);
     }
-    @PostMapping("/{idTipoTarefa}")
-    public TipoTarefa getDependentes(@PathVariable int idTHU, @RequestParam List<Integer> ids){
-        return application.gerarDependentes(idTHU, ids);
+
+    @PostMapping("/{idTipoTaref}")
+    public TipoTarefa getDependentes(
+            @PathVariable int idTipoTaref,
+            @RequestParam List<Integer> ids) {
+        return application.gerarDependentes(idTipoTaref, ids);
     }
 
-    
 }

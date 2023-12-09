@@ -82,8 +82,9 @@ public class TipoTarefaApplication {
             TipoTarefa tipoTarefa = getById(idTipoTarefa);
             for(Integer id: listaIds){
                 listaDependentes.add(getById(id));
+                tipoTarefa.setListaDependentes(listaDependentes);
             }
-            tipoTarefa.setListaDependentes(listaDependentes);
+            //tipoTarefa.setListaDependentes(listaDependentes);
             return repository.save(tipoTarefa);
         } catch (NotFoundException e) {
             e.getMessage();
