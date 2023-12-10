@@ -75,7 +75,7 @@ public class EpicoApplication
 
     public List<Epico> retrieveAll(int idProjeto)
     {
-        return this.repository.findAllByProjeto(idProjeto);
+        return repository.findAllByProjeto(idProjeto); // tirei o this.repository
     }
 
     public Epico update(int id, EpicoDTO epicoDTO)
@@ -138,4 +138,6 @@ public class EpicoApplication
         }
         return null;
     }
+
+
 }
