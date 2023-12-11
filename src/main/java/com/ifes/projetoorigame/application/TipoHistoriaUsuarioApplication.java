@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import com.ifes.projetoorigame.repository.TipoHistoriaUsuarioRepository;
 
 @Component
 @Service
+
 public class TipoHistoriaUsuarioApplication {
     @Autowired
     private TipoHistoriaUsuarioRepository tipoHURepository;

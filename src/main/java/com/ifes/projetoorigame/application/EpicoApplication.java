@@ -14,6 +14,8 @@ import com.ifes.projetoorigame.repository.ProjetoRepository;
 import com.ifes.projetoorigame.repository.TipoEpicoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Service
+
 public class EpicoApplication
 {
     @Autowired
@@ -137,6 +140,10 @@ public class EpicoApplication
             e.getMessage();
         }
         return null;
+    }
+
+    public List<Epico> getAllEpicos(){
+        return repository.findAll();
     }
 
 
