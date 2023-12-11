@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.ifes.projetoorigame.dto.TipoHistoriaUsuarioDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
+import com.ifes.projetoorigame.lib.Grafo;
+import com.ifes.projetoorigame.lib.Vertice;
 import com.ifes.projetoorigame.model.Epico;
 import com.ifes.projetoorigame.model.HistoriaUsuario;
 import com.ifes.projetoorigame.model.Tarefa;
@@ -32,6 +34,14 @@ public class TipoHistoriaUsuarioApplication {
     @Autowired
     private TipoTarefaApplication tipoTarefaApp;
     @Autowired HistoriaUsuarioApplication hUsuarioApplication;
+
+    @Autowired
+    private Grafo<TipoHistoriaUsuario> grafoHU;
+
+    
+    @Autowired
+    private Grafo<Integer> grafoHUINT;
+
     
     private TipoEpico getTipoEpico(int id){
         Optional<TipoEpico> op = repoTipoEpico.findById(id);
@@ -42,6 +52,9 @@ public class TipoHistoriaUsuarioApplication {
         TipoHistoriaUsuario tipoHU = new TipoHistoriaUsuario();
         tipoHU.setDescricao(dto.getDescricao());
         tipoHU.setTipoEpico(getTipoEpico(dto.getTipoEpico()));
+
+        grafoHU.adicionaVertice(tipoHU); 
+
         return tipoHURepository.save(tipoHU);
     }
 
@@ -90,20 +103,75 @@ public class TipoHistoriaUsuarioApplication {
         }
         tipoHURepository.deleteById(id);
     }
-    public TipoHistoriaUsuario gerarDependentes(int idTHU,List<Integer> listIds){
+
+
+
+
+    public TipoHistoriaUsuario gerarDependentes(int idTHU,List<Integer> listIds) {
         List<TipoHistoriaUsuario> listaTH = new ArrayList<>();
-        try {
-            TipoHistoriaUsuario hu = getById(idTHU);
-            for(Integer id: listIds){
-                listaTH.add(getById(id));
-                hu.setListaDependentes(listaTH);
-            }
-            return tipoHURepository.save(hu);
+        List<TipoHistoriaUsuario> ListTiposHU = tipoHURepository.findAll();
+        grafoHUINT = new Grafo<>();
+        
+        
+        //ADICIONA TODOS OS VERTICES
+        for (TipoHistoriaUsuario each : ListTiposHU) {
+            grafoHUINT.adicionaVertice( each.getId());
             
-        } catch (NotFoundException e) {
-            e.getMessage();
         }
+
+        for (TipoHistoriaUsuario oneTHU : ListTiposHU) {
+            List<TipoHistoriaUsuario> THUESeusDependentes = oneTHU.getListaDependentes();
+            for (TipoHistoriaUsuario THUESeusDependentes1 : THUESeusDependentes) { 
+                grafoHUINT.adicionarAresta(grafoHUINT.obterVertice(oneTHU.getId()), grafoHUINT.obterVertice(THUESeusDependentes1.getId()), 1);
+                
+            }
+        } 
+        
+        
+        try{
+            TipoHistoriaUsuario hu = getById(idTHU);
+            for (Integer ids : listIds) {
+                grafoHUINT.adicionarAresta(grafoHUINT.obterVertice(idTHU), grafoHUINT.obterVertice(ids), 1);
+                if(grafoHUINT.verificaCiclo()){
+                    System.out.println("\n\n TEM CICLO \n\n");
+                }else{
+                    listaTH.add(getById(ids));
+                    hu.setListaDependentes(listaTH);
+                }
+            }
+            System.out.println("\n\n N TEM CICLO \n\n");
+            grafoHUINT.imprimirTopologia();
+
+            System.out.println("\n\n FIM DO GRAFO DE INTEIRO \n\n");
+
+
+            return tipoHURepository.save(hu);
+
+        }catch (Exception e) {
+        }
+
         return null;
+    }
+
+
+
+    //adiciona todos os vertices no grafo
+    private Grafo geraGrafoComVertice(List<TipoHistoriaUsuario> AllTHU){
+        for (TipoHistoriaUsuario oneTHU : AllTHU) {
+            grafoHU.adicionaVertice(oneTHU);
+        }  
+        return grafoHU;      
+    }
+
+    private Grafo geraGrafoComAresta(List<TipoHistoriaUsuario> ListTiposHU){
+
+        for (TipoHistoriaUsuario oneTHU : ListTiposHU) {
+            List<TipoHistoriaUsuario> THUESeusDependentes = oneTHU.getListaDependentes();
+            for (TipoHistoriaUsuario THUESeusDependentes1 : THUESeusDependentes) { 
+                grafoHU.adicionarAresta(grafoHU.obterVertice(oneTHU), grafoHU.obterVertice(THUESeusDependentes1), 1);
+            }
+        } 
+        return grafoHU;
     }
     
 }
