@@ -88,13 +88,15 @@ public class EpicoController {
     @GetMapping("/all/{idProjeto}")
     public String retrieveAll(@PathVariable int idProjeto)
     {   
-        String arvoreString= " ";
+        ArvoreBinaria<Epico> arvoreBinaria = setupArvoreBinaria();
+        return arvoreBinaria.caminharEmNivel();
+        /*String arvoreString= " ";
         ArvoreBinaria<Epico> arvoreBinaria = setupArvoreBinaria();
         arvoreBinaria.reiniciarNavegacao();
         for(int i = 0; i<arvoreBinaria.quantidadeNos(); i++){
             arvoreString = arvoreString + arvoreBinaria.obterProximo() + " \n";
         }
-        return arvoreString;
+        return arvoreString;*/
         
     }
 
