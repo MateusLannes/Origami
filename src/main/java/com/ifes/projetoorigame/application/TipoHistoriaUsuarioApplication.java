@@ -157,23 +157,6 @@ public class TipoHistoriaUsuarioApplication {
 
 
 
-    //adiciona todos os vertices no grafo
-    private Grafo geraGrafoComVertice(List<TipoHistoriaUsuario> AllTHU){
-        for (TipoHistoriaUsuario oneTHU : AllTHU) {
-            grafoHU.adicionaVertice(oneTHU);
-        }  
-        return grafoHU;      
-    }
 
-    private Grafo geraGrafoComAresta(List<TipoHistoriaUsuario> ListTiposHU){
-
-        for (TipoHistoriaUsuario oneTHU : ListTiposHU) {
-            List<TipoHistoriaUsuario> THUESeusDependentes = oneTHU.getListaDependentes();
-            for (TipoHistoriaUsuario THUESeusDependentes1 : THUESeusDependentes) { 
-                grafoHU.adicionarAresta(grafoHU.obterVertice(oneTHU), grafoHU.obterVertice(THUESeusDependentes1), 1);
-            }
-        } 
-        return grafoHU;
-    }
     
 }
