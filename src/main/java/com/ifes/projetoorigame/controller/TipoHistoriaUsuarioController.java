@@ -63,4 +63,6 @@ public class TipoHistoriaUsuarioController {
             @RequestParam List<Integer> ids) {
         return tipoHUApplication.gerarDependentes(idTHU, ids);
     }
+
+    
 }

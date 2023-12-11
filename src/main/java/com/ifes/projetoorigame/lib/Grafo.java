@@ -224,5 +224,21 @@ public class Grafo <T>{
         }
     }
     
+    public void removerAresta(Vertice<T> origem, Vertice<T> destino) {
+        Aresta<T> arestaParaRemover = null;
+
+        for (Aresta<T> aresta : this.arestas) {
+            if (aresta.getOrigem().equals(origem) && aresta.getDestino().equals(destino)) {
+                arestaParaRemover = aresta;
+                break;
+            }
+        }
+
+        if (arestaParaRemover != null) {
+            this.arestas.remove(arestaParaRemover);
+        } else {
+            System.out.println("Aresta não encontrada para remoção.");
+        }
+    }
 
 }
