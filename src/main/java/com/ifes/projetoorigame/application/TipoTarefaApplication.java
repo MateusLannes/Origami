@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.ifes.projetoorigame.dto.TipoTarefaDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
@@ -17,6 +19,8 @@ import com.ifes.projetoorigame.repository.TipoHistoriaUsuarioRepository;
 import com.ifes.projetoorigame.repository.TipoTarefaRepository;
 
 @Component
+@Service
+
 public class TipoTarefaApplication {
     @Autowired
     private TipoTarefaRepository repository;

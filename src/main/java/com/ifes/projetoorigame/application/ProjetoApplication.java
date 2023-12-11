@@ -7,6 +7,7 @@ import com.ifes.projetoorigame.model.Projeto;
 import com.ifes.projetoorigame.repository.EpicoRepository;
 import com.ifes.projetoorigame.repository.ProjetoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import com.ifes.projetoorigame.repository.TipoHistoriaUsuarioRepository;
 
 @Component
 @Service
+
 public class TipoHistoriaUsuarioApplication {
     @Autowired
     private TipoHistoriaUsuarioRepository tipoHURepository;
@@ -91,10 +93,16 @@ public class TipoHistoriaUsuarioApplication {
         tipoHURepository.deleteById(id);
     }
     public TipoHistoriaUsuario gerarDependentes(int idTHU,List<Integer> listIds){
+        //Chama um método que gera o grafo com todos os vertices.
+
         List<TipoHistoriaUsuario> listaTH = new ArrayList<>();
         try {
             TipoHistoriaUsuario hu = getById(idTHU);
             for(Integer id: listIds){
+                //Adicionar as arestas
+                //verificar ciclo
+                //se não tiver ciclo, adiona a aresta
+                //se não, não adiciona
                 listaTH.add(getById(id));
                 hu.setListaDependentes(listaTH);
             }

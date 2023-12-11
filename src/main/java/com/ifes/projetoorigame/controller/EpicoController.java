@@ -8,14 +8,17 @@ import com.ifes.projetoorigame.dto.EpicoDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
 import com.ifes.projetoorigame.model.Epico;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @SessionAttributes("arvoreBinaria")
 @RequestMapping("/api/epico")
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class EpicoController {
 
 
@@ -32,9 +35,11 @@ public class EpicoController {
     
 
     @PostMapping("/")
-    public String create(@ModelAttribute("arvoreBinaria") ArvoreBinaria<Epico> arvoreBinaria, @ModelAttribute EpicoDTO dto){
+    public String create(@ModelAttribute("arvoreBinaria") ArvoreBinaria<Epico> arvoreEpico, @ModelAttribute EpicoDTO dto){
         
         Epico epico = epicoApplication.create(dto);
+        arvoreEpico.adicionar(epico);
+        
         return "redirect:/epico/list";
 
     }
