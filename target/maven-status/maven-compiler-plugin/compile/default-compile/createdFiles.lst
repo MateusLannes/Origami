@@ -1,3 +1,4 @@
+com/ifes/projetoorigame/lib/ComparadorEpicoPorTitulo.class
 com/ifes/projetoorigame/dto/TipoEpicoDTO.class
 com/ifes/projetoorigame/controller/EpicoController.class
 com/ifes/projetoorigame/model/Epico.class
@@ -19,7 +20,6 @@ com/ifes/projetoorigame/repository/EpicoRepository.class
 com/ifes/projetoorigame/controller/HistoriaUsuarioController.class
 com/ifes/projetoorigame/repository/HistoriaUsuarioRepository.class
 com/ifes/projetoorigame/model/HistoriaUsuario.class
-com/ifes/projetoorigame/lib/ComparadorTarefaPorTitulo.class
 com/ifes/projetoorigame/dto/ProjetoDTO.class
 com/ifes/projetoorigame/application/TipoHistoriaUsuarioApplication.class
 com/ifes/projetoorigame/controller/TipoHistoriaUsuarioController.class

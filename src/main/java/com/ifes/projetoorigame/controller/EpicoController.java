@@ -1,29 +1,41 @@
 package com.ifes.projetoorigame.controller;
+import com.ifes.projetoorigame.lib.ArvoreBinaria;
 import com.ifes.projetoorigame.lib.Grafo;
+import com.ifes.projetoorigame.lib.ComparadorEpicoPorTitulo;
 
 import com.ifes.projetoorigame.application.EpicoApplication;
 import com.ifes.projetoorigame.dto.EpicoDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
 import com.ifes.projetoorigame.model.Epico;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
+@SessionAttributes("arvoreBinaria")
 @RequestMapping("/api/epico")
 public class EpicoController {
 
 
     @Autowired
     private EpicoApplication epicoApplication;
+
+    @Autowired
+    private ComparadorEpicoPorTitulo comp = new ComparadorEpicoPorTitulo();
+
+    @ModelAttribute("arvoreBinaria")
+    public ArvoreBinaria<Epico> setupArvoreBinaria() {
+        return new ArvoreBinaria<>(comp); 
+    }
     
 
     @PostMapping("/")
-    public Epico create(@RequestBody EpicoDTO dto) {
+    public String create(@ModelAttribute("arvoreBinaria") ArvoreBinaria<Epico> arvoreBinaria, @ModelAttribute EpicoDTO dto){
         
         Epico epico = epicoApplication.create(dto);
-        return epico;
+        return "redirect:/epico/list";
 
     }
 
