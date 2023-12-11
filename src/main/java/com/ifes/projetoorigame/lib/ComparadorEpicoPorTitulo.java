@@ -11,7 +11,7 @@ public class ComparadorEpicoPorTitulo implements Comparator<Epico> {
 
     @Override
     public int compare(Epico ep1, Epico ep2) {
-        // Use o método compareToIgnoreCase para comparar os títulos sem diferenciar maiúsculas e minúsculas
-        return ep1.getTitulo().compareToIgnoreCase(ep2.getTitulo());
+            
+        return Integer.compare(ep1.getId(), ep2.getId());
     }
 }

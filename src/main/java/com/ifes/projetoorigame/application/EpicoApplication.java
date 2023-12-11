@@ -142,5 +142,9 @@ public class EpicoApplication
         return null;
     }
 
+    public List<Epico> getAllEpicos(){
+        return repository.findAll();
+    }
+
 
 }
