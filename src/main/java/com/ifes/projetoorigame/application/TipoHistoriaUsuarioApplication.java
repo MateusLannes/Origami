@@ -107,51 +107,48 @@ public class TipoHistoriaUsuarioApplication {
     }
 
 
-
-
     public TipoHistoriaUsuario gerarDependentes(int idTHU,List<Integer> listIds) {
-        List<TipoHistoriaUsuario> listaTH = new ArrayList<>();
-        List<TipoHistoriaUsuario> ListTiposHU = tipoHURepository.findAll();
-        grafoHUINT = new Grafo<>();
-        
-        
-        //ADICIONA TODOS OS VERTICES
-        for (TipoHistoriaUsuario each : ListTiposHU) {
-            grafoHUINT.adicionaVertice( each.getId());
+        try {
+            TipoHistoriaUsuario hu = getById(idTHU);
+            List<TipoHistoriaUsuario> listaTH = new ArrayList<>();
+            List<TipoHistoriaUsuario> ListTiposHU = getAll(hu.getTipoEpico().getId());
+            System.out.println(ListTiposHU);
+            grafoHUINT = new Grafo<>();
             
-        }
-
-        for (TipoHistoriaUsuario oneTHU : ListTiposHU) {
-            List<TipoHistoriaUsuario> THUESeusDependentes = oneTHU.getListaDependentes();
-            for (TipoHistoriaUsuario THUESeusDependentes1 : THUESeusDependentes) { 
-                grafoHUINT.adicionarAresta(grafoHUINT.obterVertice(oneTHU.getId()), grafoHUINT.obterVertice(THUESeusDependentes1.getId()), 1);
+            
+            //ADICIONA TODOS OS VERTICES
+            for (TipoHistoriaUsuario each : ListTiposHU) {
+                grafoHUINT.adicionaVertice( each.getId());
                 
             }
-        } 
-        
-        
-        try{
-            TipoHistoriaUsuario hu = getById(idTHU);
-            for (Integer ids : listIds) {
-                grafoHUINT.adicionarAresta(grafoHUINT.obterVertice(idTHU), grafoHUINT.obterVertice(ids), 1);
-                if(grafoHUINT.verificaCiclo()){
-                    System.out.println("\n\n TEM CICLO \n\n");
-                }else{
-                    listaTH.add(getById(ids));
-                    hu.setListaDependentes(listaTH);
+
+            for (TipoHistoriaUsuario oneTHU : ListTiposHU) {
+                List<TipoHistoriaUsuario> THUESeusDependentes = oneTHU.getListaDependentes();
+                for (TipoHistoriaUsuario THUESeusDependentes1 : THUESeusDependentes) { 
+                    grafoHUINT.adicionarAresta(grafoHUINT.obterVertice(oneTHU.getId()), grafoHUINT.obterVertice(THUESeusDependentes1.getId()), 1);
+                    
                 }
-            }
-            System.out.println("\n\n N TEM CICLO \n\n");
-            grafoHUINT.imprimirTopologia();
+            } 
 
-            System.out.println("\n\n FIM DO GRAFO DE INTEIRO \n\n");
+            for (Integer ids : listIds) {
+                    grafoHUINT.adicionarAresta(grafoHUINT.obterVertice(idTHU), grafoHUINT.obterVertice(ids), 1);
+                    if(grafoHUINT.verificaCiclo()){
+                        System.out.println("\n\n TEM CICLO \n\n");
+                    }else{
+                        listaTH.add(getById(ids));
+                    }
+                }
+                hu.setListaDependentes(listaTH);
+                grafoHUINT.imprimirTopologia();
+
+                System.out.println("\n\n FIM DO GRAFO DE INTEIRO \n\n");
 
 
-            return tipoHURepository.save(hu);
-
-        }catch (Exception e) {
+                return tipoHURepository.save(hu);
+            
+        } catch (NotFoundException e) {
+            e.getMessage();
         }
-
         return null;
     }
 

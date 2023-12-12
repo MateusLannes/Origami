@@ -28,8 +28,8 @@ public class TarefaApplication {
     private HistoriaUsuarioRepository hu_repository;
     @Autowired 
     private TipoTarefaRepository repoTipoTarefa;
-    @Autowired
-    private ArvoreBinaria<Tarefa> arvore;
+    
+  
 
     
 
@@ -46,7 +46,6 @@ public class TarefaApplication {
                 tarefa.setTitulo(geraTitulo(hu.getTitulo(), tipoTarefa.getDescricao()));
 
                 tarefas.add(tarefa);
-                arvore.adicionar(tarefa);
                 
             
             }
@@ -101,12 +100,7 @@ public class TarefaApplication {
     }
 
     public void delete(int id){
-        try {
-            arvore.remover(getById(id));
-        } catch (NotFoundException e) {
-            e.getMessage();
-        }
-        
+            repository.deleteById(id); 
        
     }
 

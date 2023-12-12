@@ -1,12 +1,14 @@
 package com.ifes.projetoorigame.controller;
+
 import com.ifes.projetoorigame.lib.ArvoreBinaria;
-import com.ifes.projetoorigame.lib.Grafo;
-import com.ifes.projetoorigame.lib.ComparadorEpicoPorTitulo;
+
+import com.ifes.projetoorigame.lib.ComparadorEpicoPorId;
 
 import com.ifes.projetoorigame.application.EpicoApplication;
 import com.ifes.projetoorigame.dto.EpicoDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
 import com.ifes.projetoorigame.model.Epico;
+
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
@@ -14,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -32,10 +34,10 @@ public class EpicoController {
     private EpicoApplication epicoApplication;
 
     @Autowired
-    private ComparadorEpicoPorTitulo comp = new ComparadorEpicoPorTitulo();
+    private ComparadorEpicoPorId comp = new ComparadorEpicoPorId();
 
     @ModelAttribute("arvore")
-   public ArvoreBinaria<Epico> setupArvoreBinaria() {
+    public ArvoreBinaria<Epico> setupArvoreBinaria() {
         // Obtém a árvore da sessão se ela já existir
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession();
@@ -90,20 +92,16 @@ public class EpicoController {
     {   
         ArvoreBinaria<Epico> arvoreBinaria = setupArvoreBinaria();
         return arvoreBinaria.caminharEmNivel();
-        /*String arvoreString= " ";
-        ArvoreBinaria<Epico> arvoreBinaria = setupArvoreBinaria();
-        arvoreBinaria.reiniciarNavegacao();
-        for(int i = 0; i<arvoreBinaria.quantidadeNos(); i++){
-            arvoreString = arvoreString + arvoreBinaria.obterProximo() + " \n";
-        }
-        return arvoreString;*/
         
     }
 
     @PutMapping("/{id}")
     public Epico update(@PathVariable int id, @RequestBody EpicoDTO epicoDTO)
-    {
-        return epicoApplication.update(id, epicoDTO);
+    {   
+        
+        Epico epico = epicoApplication.update(id, epicoDTO);
+        initializeTree();
+        return epico;
     }
 
     @DeleteMapping("/{id}")
@@ -119,7 +117,9 @@ public class EpicoController {
         //epicoApplication.delete(id);
     }
     @PostMapping("/{idEpico}")
-    public Epico getDependentes(@PathVariable int idEpico,@RequestParam List<Integer> ids){
+    public Epico getDependentes(
+            @PathVariable int idEpico,
+            @RequestParam List<Integer> ids) {
         return epicoApplication.gerarDependentes(idEpico, ids);
     }
 }

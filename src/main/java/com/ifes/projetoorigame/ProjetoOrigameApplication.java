@@ -15,4 +15,5 @@ public class ProjetoOrigameApplication
 	{
 		SpringApplication.run(ProjetoOrigameApplication.class, args);
 	}
+	
 }

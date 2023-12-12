@@ -8,6 +8,7 @@ import com.ifes.projetoorigame.model.Epico;
 import com.ifes.projetoorigame.model.HistoriaUsuario;
 import com.ifes.projetoorigame.model.Projeto;
 import com.ifes.projetoorigame.model.TipoEpico;
+import com.ifes.projetoorigame.model.TipoHistoriaUsuario;
 import com.ifes.projetoorigame.repository.EpicoRepository;
 import com.ifes.projetoorigame.repository.HistoriaUsuarioRepository;
 import com.ifes.projetoorigame.repository.ProjetoRepository;
@@ -41,7 +42,7 @@ public class EpicoApplication
     private HistoriaUsuarioApplication hu_app;
 
     @Autowired
-    private Grafo<Epico> grafo;
+    private Grafo<Integer> grafo;
 
     
     public Epico create(EpicoDTO epicoDTO)
@@ -127,20 +128,55 @@ public class EpicoApplication
         }
            
     }
-    public Epico gerarDependentes(int idEpico,List<Integer> listIds){
-        List<Epico> listaEpicos = new ArrayList<>();
-        try {
-            Epico epico = retrieve(idEpico);
-            for(Integer id: listIds){
-                listaEpicos.add(retrieve(id));
-            }
-            epico.setListaDependentes(listaEpicos);
-            return repository.save(epico);
-        } catch (NotFoundException e) {
-            e.getMessage();
+
+    public Epico gerarDependentes(int idEpico,List<Integer> listIds) {
+        List<Epico> listaTH = new ArrayList<>();
+        List<Epico> listaEpicos = repository.findAll(); // mudar a query
+        grafo = new Grafo<>();
+        
+        
+        //ADICIONA TODOS OS VERTICES
+        for (Epico each : listaEpicos) {
+            grafo.adicionaVertice( each.getId());
+            
         }
+
+        for (Epico epico : listaEpicos) {
+            List<Epico> epicosDependentes = epico.getListaDependentes();
+            for (Epico epic : epicosDependentes) { 
+                grafo.adicionarAresta(grafo.obterVertice(epico.getId()), grafo.obterVertice(epic.getId()), 1);
+                
+            }
+        } 
+        
+        
+        try{
+            Epico epico = retrieve(idEpico);
+            for (Integer ids : listIds) {
+                grafo.adicionarAresta(grafo.obterVertice(idEpico), grafo.obterVertice(ids), 1);
+                if(grafo.verificaCiclo()){
+                    System.out.println("\n\n TEM CICLO \n\n");
+                }else{
+                    listaTH.add(retrieve(ids));
+                    
+                }
+            }
+            epico.setListaDependentes(listaTH);
+
+            System.out.println("\n\n N TEM CICLO \n\n");
+            grafo.imprimirTopologia();
+
+            System.out.println("\n\n FIM DO GRAFO DE INTEIRO \n\n");
+
+
+            return repository.save(epico);
+
+        }catch (Exception e) {
+        }
+
         return null;
     }
+
 
     public List<Epico> getAllEpicos(){
         return repository.findAll();

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ifes.projetoorigame.dto.TipoTarefaDTO;
 import com.ifes.projetoorigame.exception.NotFoundException;
+import com.ifes.projetoorigame.lib.Grafo;
 import com.ifes.projetoorigame.model.Tarefa;
 import com.ifes.projetoorigame.model.TipoHistoriaUsuario;
 import com.ifes.projetoorigame.model.TipoTarefa;
@@ -29,6 +30,8 @@ public class TipoTarefaApplication {
     private TipoHistoriaUsuarioRepository repoTipoH;
     @Autowired
     private TarefaRepository repoTarefa;
+    @Autowired
+    private Grafo<Integer> grafoTipoTarefa;
 
     public TipoTarefa create(TipoTarefaDTO dto){
         
@@ -66,7 +69,8 @@ public class TipoTarefaApplication {
             tipoTarefa = this.getById(id);
             tipoTarefa.setDescricao(dto.getDescricao());
             tipoTarefa.setTipoHistoriaUsuario(thu);
-            this.repository.save(tipoTarefa);
+            repository.save(tipoTarefa);
+            System.out.println(tipoTarefa);
            
         } catch (NotFoundException e) {
             e.getMessage();
@@ -82,18 +86,61 @@ public class TipoTarefaApplication {
 
     public TipoTarefa gerarDependentes(int idTipoTarefa, List<Integer> listaIds){
         List<TipoTarefa> listaDependentes = new ArrayList<>();
+        List<TipoTarefa> listTodasTipoTarefa =  repository.findAll();
+        grafoTipoTarefa = new Grafo<>();
+
+        for(TipoTarefa tipoTarefa: listTodasTipoTarefa){
+            grafoTipoTarefa.adicionaVertice(tipoTarefa.getId());
+        }
+
+        for(TipoTarefa tipoTarefa: listTodasTipoTarefa ){
+            List<TipoTarefa> listaDep = tipoTarefa.getListaDependentes();
+
+            for(TipoTarefa tipoT : listaDep){
+                grafoTipoTarefa.adicionarAresta(grafoTipoTarefa.obterVertice(tipoTarefa.getId()), grafoTipoTarefa.obterVertice(tipoT.getId()),1);
+            }
+           
+        }
         try {
+             TipoTarefa tipoTaref = getById(idTipoTarefa);
+             for(Integer ids: listaIds){
+                grafoTipoTarefa.adicionarAresta(grafoTipoTarefa.obterVertice(idTipoTarefa), grafoTipoTarefa.obterVertice(ids), 1);
+
+                if(grafoTipoTarefa.verificaCiclo()){
+                    System.out.println("\n\n TEM CICLO \n\n");
+                }else{
+                    listaDependentes.add(getById(ids));
+
+                }
+             }
+
+             tipoTaref.setListaDependentes(listaDependentes);
+             grafoTipoTarefa.imprimirTopologia();
+ 
+             System.out.println("\n\n FIM DO GRAFO DE INTEIRO \n\n");;
+
+
+            return repository.save(tipoTaref);
+
+           } catch (Exception e) {
+            
+           }
+           return null;
+
+
+        /*try {
             TipoTarefa tipoTarefa = getById(idTipoTarefa);
             for(Integer id: listaIds){
                 listaDependentes.add(getById(id));
-                tipoTarefa.setListaDependentes(listaDependentes);
+                
             }
+            tipoTarefa.setListaDependentes(listaDependentes);
             //tipoTarefa.setListaDependentes(listaDependentes);
             return repository.save(tipoTarefa);
         } catch (NotFoundException e) {
             e.getMessage();
         }
-        return null;
+        return null;*/
 
     }
 

@@ -14,6 +14,7 @@
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/repository/TipoEpicoRepository.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/model/Categoria.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/model/Projeto.java
+/home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/lib/ComparadorEpicoPorId.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/dto/TipoEpicoDTO.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/lib/Grafo.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/model/TipoHistoriaUsuario.java
@@ -22,7 +23,6 @@
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/repository/TarefaRepository.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/application/EpicoApplication.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/application/ProjetoApplication.java
-/home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/lib/ComparadorEpicoPorTitulo.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/lib/Vertice.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/application/TarefaApplication.java
 /home/maressasilva/Documentos/REPOSITÓRIOS_GIT/Origami/src/main/java/com/ifes/projetoorigame/controller/ProjetoController.java
