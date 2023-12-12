@@ -122,7 +122,17 @@ public class EpicoApplication
                     hu_app.delete(hu.getId());
                 }
             }
-            repository.deleteById(id);
+            List<Epico> lista = repository.findAllByProjeto(epico.getProjeto().getId());
+            for(Epico epic: lista){
+                List<Epico> dependencias = epic.getListaDependentes();
+                if(dependencias.contains(epico)){
+                    dependencias.remove(epico);
+                    epic.setListaDependentes(dependencias);
+
+                }
+            }
+            epico.setListaDependentes(null);
+            repository.deleteById(id); 
         } catch (NotFoundException e) {
             e.getMessage();
         }

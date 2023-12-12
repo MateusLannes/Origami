@@ -100,7 +100,23 @@ public class TarefaApplication {
     }
 
     public void delete(int id){
+        try {
+            Tarefa tarefa = getById(id);
+            List<Tarefa> lista = repository.findByHistoriaUsuarioId(tarefa.getHistoria_usuario().getId());
+            for(Tarefa taref: lista){
+                List<Tarefa> dependencias = taref.getDependentes();
+                if(dependencias.contains(tarefa)){
+                    dependencias.remove(tarefa);
+                    taref.setDependentes(dependencias);
+
+                }
+            }
+            tarefa.setDependentes(null);
             repository.deleteById(id); 
+        } catch (NotFoundException e) {
+            e.getMessage();
+            
+        }
        
     }
 

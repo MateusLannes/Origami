@@ -120,7 +120,23 @@ public class HistoriaUsuarioApplication {
         for(Tarefa tarefa: tarefas){
             tarefaApp.delete(tarefa.getId());
         }
-        repository.deleteById(id);
+       try {
+         HistoriaUsuario historinha = getById(id);
+            List<HistoriaUsuario> lista = repository.findByEpicoId(historinha.getEpico().getId());
+            for(HistoriaUsuario histo: lista){
+                List<HistoriaUsuario> dependencias = histo.getDependentes();
+                if(dependencias.contains(historinha)){
+                    dependencias.remove(historinha);
+                    histo.setDependentes(dependencias);
+
+                }
+            }
+            historinha.setDependentes(null);
+            repository.deleteById(id);
+       } catch (NotFoundException e) {
+        e.getMessage();
+       }
+        
     }
 
     public void gerarDependentes(HistoriaUsuario hu, List<HistoriaUsuario> historias){

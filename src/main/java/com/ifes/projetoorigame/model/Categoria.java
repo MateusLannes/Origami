@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public enum Categoria {
-    Negicio,
+    Negocio,
     Desenvolvimento;
 }
