@@ -43,6 +43,7 @@ public class TipoHistoriaUsuarioApplication {
     
     @Autowired
     private Grafo<Integer> grafoHUINT;
+    
 
     
     private TipoEpico getTipoEpico(int id){
@@ -108,12 +109,13 @@ public class TipoHistoriaUsuarioApplication {
 
 
     public TipoHistoriaUsuario gerarDependentes(int idTHU,List<Integer> listIds) {
-        try {
+        /*try {
             TipoHistoriaUsuario hu = getById(idTHU);
             List<TipoHistoriaUsuario> listaTH = new ArrayList<>();
             List<TipoHistoriaUsuario> ListTiposHU = getAll(hu.getTipoEpico().getId());
             System.out.println(ListTiposHU);
             grafoHUINT = new Grafo<>();
+            
             
             
             //ADICIONA TODOS OS VERTICES
@@ -140,6 +142,50 @@ public class TipoHistoriaUsuarioApplication {
                 }
                 hu.setListaDependentes(listaTH);
                 grafoHUINT.imprimirTopologia();
+
+                System.out.println("\n\n FIM DO GRAFO DE INTEIRO \n\n");
+
+
+                return tipoHURepository.save(hu);
+            
+        } catch (NotFoundException e) {
+            e.getMessage();
+        }
+        return null;
+    }*/
+    try {
+            TipoHistoriaUsuario hu = getById(idTHU);
+            List<TipoHistoriaUsuario> listaTH = new ArrayList<>();
+            List<TipoHistoriaUsuario> ListTiposHU = getAll(hu.getTipoEpico().getId());
+            System.out.println(ListTiposHU);
+            grafoHU = new Grafo<>();
+            
+            
+            
+            //ADICIONA TODOS OS VERTICES
+            for (TipoHistoriaUsuario each : ListTiposHU) {
+                grafoHU.adicionaVertice( each);
+                
+            }
+
+            for (TipoHistoriaUsuario oneTHU : ListTiposHU) {
+                List<TipoHistoriaUsuario> THUESeusDependentes = oneTHU.getListaDependentes();
+                for (TipoHistoriaUsuario THUESeusDependentes1 : THUESeusDependentes) { 
+                    grafoHU.adicionarAresta(grafoHU.obterVertice(oneTHU), grafoHU.obterVertice(THUESeusDependentes1), 1);
+                    
+                }
+            } 
+
+            for (Integer ids : listIds) {
+                    grafoHU.adicionarAresta(grafoHU.obterVertice(getById(idTHU)), grafoHU.obterVertice(getById(ids)), 1);
+                    if(grafoHU.verificaCiclo()){
+                        System.out.println("\n\n TEM CICLO \n\n");
+                    }else{
+                        listaTH.add(getById(ids));
+                    }
+                }
+                hu.setListaDependentes(listaTH);
+                grafoHU.imprimirTopologia();
 
                 System.out.println("\n\n FIM DO GRAFO DE INTEIRO \n\n");
 
