@@ -88,11 +88,11 @@ public class EpicoController {
     }
 
     @GetMapping("/all/{idProjeto}")
-    public String retrieveAll(@PathVariable int idProjeto)
+    public List<Epico> retrieveAll(@PathVariable int idProjeto)
     {   
         ArvoreBinaria<Epico> arvoreBinaria = setupArvoreBinaria();
-        return arvoreBinaria.caminharEmNivel();
-        
+         System.out.println(arvoreBinaria.caminharEmNivel());
+        return epicoApplication.retrieveAll(idProjeto);
     }
 
     @PutMapping("/{id}")

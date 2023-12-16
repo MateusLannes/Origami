@@ -227,7 +227,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T>
 
     @Override
     public String caminharEmNivel() {
-        return "["+caminhaEmNivel()+"]";
+        return "\n CAMINHA EM NIVEL [\n"+caminhaEmNivel()+"\n]\n FIM CAMINHA EM NIVEL\n";
     }
     /**
      * Método que preenche uma fila que ordena os elementos por níveis e coloca a saída em uma ‘String’
