@@ -45,6 +45,13 @@ public class EpicoApplication
     private Grafo<Integer> grafo;
 
     
+
+    /**
+     * Cria um novo épico com base nos dados fornecidos pelo DTO.
+     * 
+     * @param epicoDTO O DTO contendo os dados para criar o novo épico.
+     * @return O novo épico criado ou null se o tipo de épico ou o projeto não forem encontrados.
+     */
     public Epico create(EpicoDTO epicoDTO)
     {
         Epico epico = new Epico();
@@ -55,6 +62,8 @@ public class EpicoApplication
         
         Optional<TipoEpico> op = repoTipoEpico.findById(epicoDTO.getTipoEpico_id());
         Optional<Projeto> op2 = repoProjeto.findById(epicoDTO.getProjeto_id());
+
+        // Verifica se o tipo de épico e o projeto foram encontrados
         if(op.isPresent() && op2.isPresent()){
             epico.setCategoria(epicoDTO.getCategoria());
             epico.setProjeto(op2.get());
@@ -67,6 +76,12 @@ public class EpicoApplication
         return epico;
     }
 
+
+    /**
+     * Recupera um e épicos específico.
+     *
+     * @param id O identificador único do Épico.
+     */    
     public Epico retrieve(int id) throws NotFoundException
     {
         Optional<Epico> entity;
@@ -77,11 +92,25 @@ public class EpicoApplication
         else throw new NotFoundException("Épico não encontrado");
     }
 
+
+    /**
+     * Recupera todos os épicos associados a um projeto específico.
+     *
+     * @param idProjeto O identificador único do projeto.
+     */
     public List<Epico> retrieveAll(int idProjeto)
     {
-        return repository.findAllByProjeto(idProjeto); // tirei o this.repository
+        return repository.findAllByProjeto(idProjeto); 
     }
 
+
+    /**
+     * Atualiza as informações de um épico com base no ID fornecido e nos dados do DTO.
+     *
+     * @param id O identificador único do épico a ser atualizado.
+     * @param epicoDTO O DTO contendo os novos dados para atualização.
+     * @return O épico atualizado ou null se o épico não for encontrado.
+     */
     public Epico update(int id, EpicoDTO epicoDTO)
     {
         Epico epico;
@@ -111,6 +140,15 @@ public class EpicoApplication
         return null;
     }
 
+
+
+    /**
+     * Exclui um épico e suas dependências associadas.
+     * Este método remove todas as histórias de usuário vinculadas ao épico,
+     * elimina as dependências do épico em outros épicos e, finalmente, exclui o épico.
+     *
+     * @param id O identificador único do épico a ser excluído.
+     */
     public void delete(int id)
     {
         
@@ -141,7 +179,7 @@ public class EpicoApplication
 
     public Epico gerarDependentes(int idEpico,List<Integer> listIds) {
         List<Epico> listaTH = new ArrayList<>();
-        List<Epico> listaEpicos = repository.findAll(); // mudar a query
+        List<Epico> listaEpicos = repository.findAll(); 
         grafo = new Grafo<>();
         
         
@@ -151,6 +189,7 @@ public class EpicoApplication
             
         }
 
+        //adiciona todas arestas ao grafo, mas sem a Dependencia que acabou de ser solocitada : (int idEpico,List<Integer> listIds)
         for (Epico epico : listaEpicos) {
             List<Epico> epicosDependentes = epico.getListaDependentes();
             for (Epico epic : epicosDependentes) { 
@@ -159,9 +198,11 @@ public class EpicoApplication
             }
         } 
         
-        
+
         try{
             Epico epico = retrieve(idEpico);
+
+            // aqui é adicionado a dependencia que acabou de ser solicitada
             for (Integer ids : listIds) {
                 grafo.adicionarAresta(grafo.obterVertice(idEpico), grafo.obterVertice(ids), 1);
                 if(grafo.verificaCiclo()){
